@@ -37,28 +37,28 @@ export const registerFunction = async (req: Request, res: Response) => {
 
         // create new user 
 
-        // const newUser = await prisma.user.create({
-        //     data: {
-        //         userName,
-        //         email,
-        //         password: hashPassword
-        //     }
-        // })
+        const newUser = await prisma.user.create({
+            data: {
+                userName,
+                email,
+                password: hashPassword
+            }
+        })
 
 
         const otp = Math.floor(+ 100000 + Math.random() * 900000)
 
 
-        // const newOtp = await prisma.otp.create({
-        //     data:{
-        //         otp,
-        //         userID: newUser.id,
-        //     }
-        // })
+        const newOtp = await prisma.otp.create({
+            data:{
+                otp,
+                userID: newUser.id,
+            }
+        })
 
 
-        if ( true) {
-        // if (newUser && newOtp) {
+        // if ( true) {
+        if (newUser && newOtp) {
             
             const htmlText = `
                 <h1>Welcome to Our Service</h1>
@@ -105,7 +105,7 @@ export const loginFunction = async (req: Request, res: Response) => {
 
         const token = jwt.sign(
             { id: user.id, userName: user.userName },
-            process.env.SECRET as string,
+            process.env.SECRET_KEY as string,
             { expiresIn: ExpTime }
         );
 

@@ -40,22 +40,22 @@ const registerFunction = (req, res) => __awaiter(void 0, void 0, void 0, functio
         const genreateSalt = yield bcrypt_1.default.genSalt(10);
         const hashPassword = yield bcrypt_1.default.hash(password, genreateSalt);
         // create new user 
-        // const newUser = await prisma.user.create({
-        //     data: {
-        //         userName,
-        //         email,
-        //         password: hashPassword
-        //     }
-        // })
+        const newUser = yield prisma_1.default.user.create({
+            data: {
+                userName,
+                email,
+                password: hashPassword
+            }
+        });
         const otp = Math.floor(+100000 + Math.random() * 900000);
-        // const newOtp = await prisma.otp.create({
-        //     data:{
-        //         otp,
-        //         userID: newUser.id,
-        //     }
-        // })
-        if (true) {
-            // if (newUser && newOtp) {
+        const newOtp = yield prisma_1.default.otp.create({
+            data: {
+                otp,
+                userID: newUser.id,
+            }
+        });
+        // if ( true) {
+        if (newUser && newOtp) {
             const htmlText = `
                 <h1>Welcome to Our Service</h1>
                 <p>Your OTP is <strong>${otp}</strong></p>
@@ -95,7 +95,7 @@ const loginFunction = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         if (!checkPassword) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
-        const token = jsonwebtoken_1.default.sign({ id: user.id, userName: user.userName }, process.env.SECRET, { expiresIn: ExpTime });
+        const token = jsonwebtoken_1.default.sign({ id: user.id, userName: user.userName }, process.env.SECRET_KEY, { expiresIn: ExpTime });
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production', // Ensure the secure flag is set in production
