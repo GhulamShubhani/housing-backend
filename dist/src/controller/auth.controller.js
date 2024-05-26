@@ -48,14 +48,14 @@ const registerFunction = (req, res) => __awaiter(void 0, void 0, void 0, functio
             }
         });
         const otp = Math.floor(+100000 + Math.random() * 900000);
-        const newOtp = yield prisma_1.default.otp.create({
+        const newOtpdata = yield prisma_1.default.otp.create({
             data: {
                 otp,
                 userID: newUser.id,
             }
         });
         // if ( true) {
-        if (newUser && newOtp) {
+        if (newUser && newOtpdata) {
             const htmlText = `
                 <h1>Welcome to Our Service</h1>
                 <p>Your OTP is <strong>${otp}</strong></p>

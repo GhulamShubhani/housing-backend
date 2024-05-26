@@ -49,7 +49,7 @@ export const registerFunction = async (req: Request, res: Response) => {
         const otp = Math.floor(+ 100000 + Math.random() * 900000)
 
 
-        const newOtp = await prisma.otp.create({
+        const newOtpdata = await prisma.otp.create({
             data:{
                 otp,
                 userID: newUser.id,
@@ -58,7 +58,7 @@ export const registerFunction = async (req: Request, res: Response) => {
 
 
         // if ( true) {
-        if (newUser && newOtp) {
+        if (newUser && newOtpdata) {
             
             const htmlText = `
                 <h1>Welcome to Our Service</h1>
